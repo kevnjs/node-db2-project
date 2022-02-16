@@ -25,11 +25,18 @@ const checkCarPayload = (req, res, next) => {
 
 const checkVinNumberValid = (req, res, next) => {
   // DO YOUR MAGIC
+  if(!req.body?.vin) return res.status(400).json({message: `${req.body?.vin} is invalid`})
 }
 
 const checkVinNumberUnique = (req, res, next) => {
   // DO YOUR MAGIC
-}
+  cars.getAll().then(allCars => {
+    allCars.forEach(car => {
+      if(car.vin === req.body.vin)
+      return res.status(400).json({message: `vin ${req.body.vin} already exists`})
+    })})
+  }
+
 
 module.exports = {
   checkCarId,
